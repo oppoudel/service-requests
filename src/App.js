@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import TopFive from "./components/TopFive";
 import { Container, Select, Header, Segment } from "semantic-ui-react";
 import Map from "./components/Map";
+import Chart from "./components/Chart";
 
 const selectOptions = [
   { key: 3, text: "Last 3 days", value: 3 },
@@ -55,6 +56,9 @@ function App() {
         <Map data={allRequests} />
       </Segment>
       <TopFive features={allRequests} />
+      <Segment style={{ marginBottom: "3em" }}>
+        <Chart features={allRequests} />
+      </Segment>
     </Container>
   );
 }
