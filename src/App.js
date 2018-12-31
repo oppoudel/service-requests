@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Container, Segment, Grid } from "semantic-ui-react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import TopFive from "./components/TopFive";
-import { Container, Select, Header, Segment } from "semantic-ui-react";
 import Map from "./components/Map";
+import HexagonMap from "./components/HexagonMap";
 import Chart from "./components/Chart";
-
-const selectOptions = [
-  { key: 3, text: "Last 3 days", value: 3 },
-  { key: 7, text: "Last 7 days", value: 7 },
-  { key: 15, text: "Last 15 days", value: 15 },
-  { key: 30, text: "Last 30 days", value: 30 }
-];
+import TopMenu from "./components/TopMenu/TopMenu";
+import LeftMenu from "./components/LeftMenu/LeftMenu";
 
 function App() {
   const [days, setDays] = useState(3);
@@ -37,29 +34,52 @@ function App() {
     },
     [days]
   );
-  const handleSelectChange = (e, data) => {
-    setDays(data.value);
+  const handleSelectChange = value => {
+    setDays(value);
   };
   return (
-    <Container>
-      <Header as="h5" style={{ margin: "10px" }}>
-        Select the number of days
-      </Header>
-      <Select
-        fluid
-        placeholder="Select Number of Days"
-        value={days}
-        options={selectOptions}
-        onChange={handleSelectChange}
-      />
-      <Segment style={{ height: "502px" }}>
-        <Map data={allRequests} />
-      </Segment>
-      <TopFive features={allRequests} />
-      <Segment style={{ marginBottom: "3em" }}>
-        <Chart features={allRequests} />
-      </Segment>
-    </Container>
+    <Router>
+      <div>
+        <TopMenu days={days} handleItemClick={handleSelectChange} />
+        <LeftMenu days={days} handleItemClick={handleSelectChange} />
+        <Container>
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <Grid columns={2} stackable>
+                <Grid.Row>
+                  <Grid.Column>
+                    <Segment style={{ height: "502px" }}>
+                      <Map data={allRequests} />
+                    </Segment>
+                  </Grid.Column>
+
+                  <Grid.Column>
+                    <Segment style={{ height: "502px" }}>
+                      <HexagonMap data={allRequests} />
+                    </Segment>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            )}
+          />
+
+          <Route
+            path="/table"
+            render={() => <TopFive features={allRequests} />}
+          />
+          <Route
+            path="/chart"
+            render={() => (
+              <Segment style={{ marginBottom: "3em" }}>
+                <Chart features={allRequests} />
+              </Segment>
+            )}
+          />
+        </Container>
+      </div>
+    </Router>
   );
 }
 

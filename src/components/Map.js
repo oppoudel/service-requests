@@ -30,8 +30,6 @@ export default class Map extends Component {
   state = {
     style: "mapbox://styles/mapbox/light-v9",
     viewport: {
-      width: "100%",
-      height: "500px",
       latitude: 39.2895,
       longitude: -76.5815,
       zoom: 11,
@@ -43,7 +41,6 @@ export default class Map extends Component {
   };
   _renderLayers() {
     const { data } = this.props;
-    console.log(data);
     return [
       new ScatterplotLayer({
         id: "geojson",

@@ -10,18 +10,7 @@ export const INITIAL_VIEW_STATE = {
   longitude: -76.5815,
   zoom: 11,
   minZoom: 9,
-  maxZoom: 19,
-  pitch: 40.5,
-  bearing: -27.396674584323023
-};
-
-const LIGHT_SETTINGS = {
-  lightsPosition: [-0.144528, 49.739968, 8000, -3.807751, 54.104682, 8000],
-  ambientRatio: 0.4,
-  diffuseRatio: 0.6,
-  specularRatio: 0.2,
-  lightsStrength: [0.8, 0.0, 0.8, 0.0],
-  numberOfLights: 2
+  maxZoom: 19
 };
 
 const colorRange = [
@@ -87,15 +76,14 @@ export default class Map extends Component {
       new HexagonLayer({
         id: "heatmap",
         colorRange,
-        coverage: 0.8,
+        coverage: 1,
         elevationRange: [0, 3000],
         elevationScale: this.state.elevationScale,
-        extruded: true,
+        extruded: false,
         data,
-        opacity: 1,
-        radius: 150,
+        opacity: 0.1,
+        radius: 350,
         getPosition: d => d.geometry.coordinates,
-        lightSettings: LIGHT_SETTINGS,
         upperPercentile: 100
       })
     ];
@@ -112,7 +100,7 @@ export default class Map extends Component {
         >
           <StaticMap
             reuseMaps
-            mapStyle="mapbox://styles/mapbox/dark-v9"
+            mapStyle="mapbox://styles/mapbox/light-v9"
             preventStyleDiffing={true}
             mapboxApiAccessToken={TOKEN}
           />

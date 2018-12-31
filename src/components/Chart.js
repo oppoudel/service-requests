@@ -21,8 +21,8 @@ export default function Chart({ features }) {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="NotClosed" fill="#8884d8" minPointSize={5} />
-        <Bar dataKey="Closed" fill="#82ca9d" minPointSize={10} />
+        <Bar dataKey="NotClosed" fill="#0080ff" minPointSize={5} />
+        <Bar dataKey="Closed" fill="#ff0080" minPointSize={10} />
       </BarChart>
     </ResponsiveContainer>
   );
