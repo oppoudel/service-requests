@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StaticMap } from "react-map-gl";
 import DeckGL, { HexagonLayer } from "deck.gl";
+import "./Map.css";
 
 const TOKEN =
   "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA";
@@ -22,54 +23,26 @@ const colorRange = [
   [209, 55, 78]
 ];
 
-const elevationScale = { min: 1, max: 50 };
-
 export default class Map extends Component {
-  state = {
-    elevationScale: elevationScale.min
-  };
-  componentDidMount() {
-    this._animate();
+  _renderTooltip() {
+    const { hoveredObject, pointerX, pointerY } = this.state || {};
+    return (
+      hoveredObject && (
+        <div
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            pointerEvents: "none",
+            left: pointerX,
+            top: pointerY
+          }}
+          className="tooltip"
+        >
+          # SRs: {hoveredObject.points.length}
+        </div>
+      )
+    );
   }
-
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.data &&
-      this.props.data &&
-      nextProps.data.length !== this.props.data.length
-    ) {
-      this._animate();
-    }
-  }
-
-  componentWillUnmount() {
-    this._stopAnimate();
-  }
-
-  _animate() {
-    this._stopAnimate();
-
-    // wait 1.5 secs to start animation so that all data are loaded
-    this.startAnimationTimer = window.setTimeout(this._startAnimate, 1500);
-  }
-
-  _startAnimate() {
-    this.intervalTimer = window.setInterval(this._animateHeight, 20);
-  }
-
-  _stopAnimate() {
-    window.clearTimeout(this.startAnimationTimer);
-    window.clearTimeout(this.intervalTimer);
-  }
-
-  _animateHeight() {
-    if (this.state.elevationScale === elevationScale.max) {
-      this._stopAnimate();
-    } else {
-      this.setState({ elevationScale: this.state.elevationScale + 1 });
-    }
-  }
-
   _renderLayers() {
     const { data } = this.props;
     return [
@@ -77,14 +50,19 @@ export default class Map extends Component {
         id: "heatmap",
         colorRange,
         coverage: 1,
-        elevationRange: [0, 3000],
-        elevationScale: this.state.elevationScale,
         extruded: false,
         data,
         opacity: 0.1,
         radius: 350,
         getPosition: d => d.geometry.coordinates,
-        upperPercentile: 100
+        upperPercentile: 100,
+        pickable: true,
+        onHover: info =>
+          this.setState({
+            hoveredObject: info.object,
+            pointerX: info.x,
+            pointerY: info.y
+          })
       })
     ];
   }
@@ -104,6 +82,7 @@ export default class Map extends Component {
             preventStyleDiffing={true}
             mapboxApiAccessToken={TOKEN}
           />
+          {this._renderTooltip()}
         </DeckGL>
       </div>
     );
