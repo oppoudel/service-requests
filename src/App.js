@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Container, Segment, Grid } from "semantic-ui-react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import TopFive from "./components/TopFive";
+import { Segment, Grid } from "semantic-ui-react";
+import { HashRouter as Router, Route } from "react-router-dom";
+import "./App.css";
+import TopTenTable from "./components/TopTenTable/TopTen";
 import Map from "./components/Map";
 import HexagonMap from "./components/HexagonMap";
 import Chart from "./components/Chart";
@@ -42,7 +43,7 @@ function App() {
       <div>
         <TopMenu days={days} handleItemClick={handleSelectChange} />
         <LeftMenu days={days} handleItemClick={handleSelectChange} />
-        <Container>
+        <div className="main-container">
           <Route
             exact
             path="/"
@@ -54,7 +55,6 @@ function App() {
                       <Map data={allRequests} />
                     </Segment>
                   </Grid.Column>
-
                   <Grid.Column>
                     <Segment style={{ height: "502px" }}>
                       <HexagonMap data={allRequests} />
@@ -66,10 +66,12 @@ function App() {
           />
 
           <Route
+            exact
             path="/table"
-            render={() => <TopFive features={allRequests} />}
+            render={() => <TopTenTable features={allRequests} />}
           />
           <Route
+            exact
             path="/chart"
             render={() => (
               <Segment style={{ marginBottom: "3em" }}>
@@ -77,7 +79,7 @@ function App() {
               </Segment>
             )}
           />
-        </Container>
+        </div>
       </div>
     </Router>
   );

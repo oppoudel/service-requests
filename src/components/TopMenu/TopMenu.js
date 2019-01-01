@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Menu, Icon } from "semantic-ui-react";
 import Header from "../Header/Header";
 import "./TopMenu.css";
@@ -23,8 +23,8 @@ const menus = [
   }
 ];
 
-export default function TopMenu({ days, handleItemClick }) {
-  const [activeMenu, setActiveMenu] = useState("/");
+const TopMenu = ({ days, location }) => {
+  const [activeMenu, setActiveMenu] = useState(location.pathname);
   let iconStyle = {
     margin: "0 10px 0 0"
   };
@@ -54,4 +54,6 @@ export default function TopMenu({ days, handleItemClick }) {
       </Menu>
     </div>
   );
-}
+};
+
+export default withRouter(TopMenu);
