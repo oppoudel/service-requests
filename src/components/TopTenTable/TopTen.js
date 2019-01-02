@@ -12,17 +12,21 @@ export default function TopTen({ features }) {
       <Table striped style={{ marginTop: "10px" }}>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Total SR</Table.HeaderCell>
-            <Table.HeaderCell>Not Closed SR</Table.HeaderCell>
-            <Table.HeaderCell>Closed SR</Table.HeaderCell>
+            <Table.HeaderCell>Agency</Table.HeaderCell>
+            <Table.HeaderCell>Total SRs</Table.HeaderCell>
+            <Table.HeaderCell>Open SRs</Table.HeaderCell>
+            <Table.HeaderCell>New SRs</Table.HeaderCell>
+            <Table.HeaderCell>Not Closed SRs</Table.HeaderCell>
+            <Table.HeaderCell>Closed SRs</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {data.map(({ Name, TotalSr, NotClosed, Closed }) => (
-            <Table.Row key={Name}>
-              <Table.Cell>{Name}</Table.Cell>
+          {data.map(({ Agency, TotalSr, NotClosed, Closed, Open, New }) => (
+            <Table.Row key={Agency}>
+              <Table.Cell>{Agency}</Table.Cell>
               <Table.Cell>{TotalSr}</Table.Cell>
+              <Table.Cell>{Open}</Table.Cell>
+              <Table.Cell>{New}</Table.Cell>
               <Table.Cell>{NotClosed}</Table.Cell>
               <Table.Cell>{Closed}</Table.Cell>
             </Table.Row>
