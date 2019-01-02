@@ -15,12 +15,18 @@ export default function Chart({ features }) {
   const data = reduceData(features);
   return (
     <ResponsiveContainer width="100%" height={500}>
-      <BarChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+      <BarChart
+        data={data}
+        margin={{ top: 5, right: 30, left: 20, bottom: 15 }}
+      >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="Name" />
+        <XAxis
+          dataKey="Agency"
+          label={{ value: "Departments", position: "bottom", offset: 0 }}
+        />
         <YAxis />
         <Tooltip />
-        <Legend />
+        <Legend verticalAlign="top" />
         <Bar dataKey="NotClosed" fill="#0080ff" minPointSize={5} />
         <Bar dataKey="Closed" fill="#ff0080" minPointSize={10} />
       </BarChart>

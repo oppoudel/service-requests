@@ -17,7 +17,7 @@ const legendStyle = {
   width: "200px"
 };
 
-export const INITIAL_VIEW_STATE = {
+const INITIAL_VIEW_STATE = {
   latitude: 39.2895,
   longitude: -76.5815,
   zoom: 11,
@@ -76,10 +76,10 @@ export default class Map extends Component {
       new HexagonLayer({
         id: "heatmap",
         colorRange,
-        coverage: 1,
+        coverage: 0.6,
         extruded: true,
         data,
-        opacity: 1,
+        opacity: 0.6,
         radius: 150,
         getPosition: d => d.geometry.coordinates,
         upperPercentile: 99,
@@ -127,7 +127,7 @@ export default class Map extends Component {
               />
             ))}
           </div>
-          <p class="layout">
+          <p className="layout">
             <span>Fewer SRs</span>
             <span style={{ textAlign: "right" }}>More Srs</span>
           </p>

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Segment, Grid } from "semantic-ui-react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
+import { Segment, Loader } from "semantic-ui-react";
 import { HashRouter as Router, Route } from "react-router-dom";
 import "./App.css";
-import TopTenTable from "./components/TopTenTable/TopTen";
-import Map from "./components/Map/Map";
-import HexagonMap from "./components/Map/HexagonMap";
-import Chart from "./components/Chart";
-import TopMenu from "./components/TopMenu/TopMenu";
-import LeftMenu from "./components/LeftMenu/LeftMenu";
+const TopMenu = lazy(() => import("./components/TopMenu/TopMenu"));
+const LeftMenu = lazy(() => import("./components/LeftMenu/LeftMenu"));
+const Maps = lazy(() => import("./components/Map/Maps"));
+const TopTenTable = lazy(() => import("./components/TopTenTable/TopTen"));
+const Chart = lazy(() => import("./components/Chart"));
 
 function App() {
   const [days, setDays] = useState(3);
@@ -41,44 +40,30 @@ function App() {
   return (
     <Router>
       <div>
-        <TopMenu days={days} handleItemClick={handleSelectChange} />
-        <LeftMenu days={days} handleItemClick={handleSelectChange} />
+        <Suspense fallback={<Loader active />}>
+          <TopMenu days={days} handleItemClick={handleSelectChange} />
+        </Suspense>
+        <Suspense fallback={<Loader active />}>
+          <LeftMenu days={days} handleItemClick={handleSelectChange} />
+        </Suspense>
         <div className="main-container">
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <Grid columns={2} stackable>
-                <Grid.Row>
-                  <Grid.Column>
-                    <Segment style={{ height: "502px" }}>
-                      <Map data={allRequests} />
-                    </Segment>
-                  </Grid.Column>
-                  <Grid.Column>
-                    <Segment style={{ height: "502px" }}>
-                      <HexagonMap data={allRequests} />
-                    </Segment>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-            )}
-          />
-
-          <Route
-            exact
-            path="/table"
-            render={() => <TopTenTable features={allRequests} />}
-          />
-          <Route
-            exact
-            path="/chart"
-            render={() => (
-              <Segment style={{ marginBottom: "3em" }}>
-                <Chart features={allRequests} />
-              </Segment>
-            )}
-          />
+          <Suspense fallback={<Loader active />}>
+            <Route exact path="/" render={() => <Maps data={allRequests} />} />
+            <Route
+              exact
+              path="/table"
+              render={() => <TopTenTable features={allRequests} />}
+            />
+            <Route
+              exact
+              path="/chart"
+              render={() => (
+                <Segment style={{ marginBottom: "3em" }}>
+                  <Chart features={allRequests} />
+                </Segment>
+              )}
+            />
+          </Suspense>
         </div>
       </div>
     </Router>
