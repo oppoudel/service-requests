@@ -11,7 +11,7 @@ export const reduceData = features => {
   const notClosed = f => f.properties.srstatus !== "Closed";
   const data = topTenAgency.reduce((arr, item) => {
     arr.push({
-      Agency: item,
+      Departments: item,
       TotalSr: byAgency[item].length,
       Open: byAgency[item].filter(isOpen).length,
       New: byAgency[item].filter(isNew).length,

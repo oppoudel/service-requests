@@ -21,7 +21,7 @@ export default function Chart({ features }) {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
-          dataKey="Agency"
+          dataKey="Departments"
           label={{ value: "Departments", position: "bottom", offset: 0 }}
         />
         <YAxis />

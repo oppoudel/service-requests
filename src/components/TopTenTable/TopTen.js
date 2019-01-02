@@ -12,7 +12,7 @@ export default function TopTen({ features }) {
       <Table striped style={{ marginTop: "10px" }}>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Agency</Table.HeaderCell>
+            <Table.HeaderCell>Departments</Table.HeaderCell>
             <Table.HeaderCell>Total SRs</Table.HeaderCell>
             <Table.HeaderCell>Open SRs</Table.HeaderCell>
             <Table.HeaderCell>New SRs</Table.HeaderCell>
@@ -21,16 +21,18 @@ export default function TopTen({ features }) {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {data.map(({ Agency, TotalSr, NotClosed, Closed, Open, New }) => (
-            <Table.Row key={Agency}>
-              <Table.Cell>{Agency}</Table.Cell>
-              <Table.Cell>{TotalSr}</Table.Cell>
-              <Table.Cell>{Open}</Table.Cell>
-              <Table.Cell>{New}</Table.Cell>
-              <Table.Cell>{NotClosed}</Table.Cell>
-              <Table.Cell>{Closed}</Table.Cell>
-            </Table.Row>
-          ))}
+          {data.map(
+            ({ Departments, TotalSr, NotClosed, Closed, Open, New }) => (
+              <Table.Row key={Departments}>
+                <Table.Cell>{Departments}</Table.Cell>
+                <Table.Cell>{TotalSr}</Table.Cell>
+                <Table.Cell>{Open}</Table.Cell>
+                <Table.Cell>{New}</Table.Cell>
+                <Table.Cell>{NotClosed}</Table.Cell>
+                <Table.Cell>{Closed}</Table.Cell>
+              </Table.Row>
+            )
+          )}
         </Table.Body>
       </Table>
       <CSVLink

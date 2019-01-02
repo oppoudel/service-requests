@@ -37,7 +37,7 @@ const LIGHT_SETTINGS = {
 };
 
 const colorRange = [
-  [1, 152, 189],
+  [1, 152, 189, 52],
   [73, 227, 206],
   [216, 254, 181],
   [254, 237, 177],
@@ -76,10 +76,10 @@ export default class Map extends Component {
       new HexagonLayer({
         id: "heatmap",
         colorRange,
-        coverage: 0.6,
+        coverage: 0.8,
         extruded: true,
         data,
-        opacity: 0.6,
+        opacity: 0.8,
         radius: 150,
         getPosition: d => d.geometry.coordinates,
         upperPercentile: 99,
