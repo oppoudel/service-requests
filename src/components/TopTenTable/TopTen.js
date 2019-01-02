@@ -35,7 +35,7 @@ export default function TopTen({ features }) {
         className="ui button btn"
         target="_blank"
       >
-        Download Data
+        Download Table Data
       </CSVLink>
     </Fragment>
   );

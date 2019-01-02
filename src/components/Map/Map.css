@@ -1,5 +1,25 @@
 .tooltip {
-  background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.8);
   color: #fff;
-  padding: 5px 10px;
+  max-width: 300px;
+  font-size: 10px;
+  z-index: 9;
+  pointer-events: none;
+}
+
+.layout {
+  display: table;
+  width: 100%;
+}
+.layout > * {
+  display: table-cell !important;
+}
+
+.legend {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  display: table-cell !important;
 }

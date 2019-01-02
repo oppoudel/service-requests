@@ -6,12 +6,34 @@ import "./Map.css";
 const TOKEN =
   "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA";
 
+const legendStyle = {
+  position: "absolute",
+  zIndex: 500,
+  top: 0,
+  right: 0,
+  background: "white",
+  margin: "1em",
+  padding: "1em",
+  width: "200px"
+};
+
 export const INITIAL_VIEW_STATE = {
   latitude: 39.2895,
   longitude: -76.5815,
   zoom: 11,
   minZoom: 9,
-  maxZoom: 19
+  maxZoom: 19,
+  pitch: 60,
+  bearing: -27.396674584323023
+};
+
+const LIGHT_SETTINGS = {
+  lightsPosition: [-0.144528, 49.739968, 8000, -3.807751, 54.104682, 8000],
+  ambientRatio: 0.4,
+  diffuseRatio: 0.6,
+  specularRatio: 0.2,
+  lightsStrength: [0.8, 0.0, 0.8, 0.0],
+  numberOfLights: 2
 };
 
 const colorRange = [
@@ -23,26 +45,31 @@ const colorRange = [
   [209, 55, 78]
 ];
 
+const colorRamp = colorRange.slice().map(color => `rgb(${color.join(",")})`);
+
 export default class Map extends Component {
-  _renderTooltip() {
-    const { hoveredObject, pointerX, pointerY } = this.state || {};
+  state = {
+    hoveredObject: null
+  };
+  _renderTooltip = () => {
+    const { x, y, hoveredObject } = this.state;
+
+    if (!hoveredObject) {
+      return null;
+    }
+
+    const lat = hoveredObject.centroid[1];
+    const lng = hoveredObject.centroid[0];
+    const count = hoveredObject.points.length;
+
     return (
-      hoveredObject && (
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            pointerEvents: "none",
-            left: pointerX,
-            top: pointerY
-          }}
-          className="tooltip"
-        >
-          # SRs: {hoveredObject.points.length}
-        </div>
-      )
+      <div className="tooltip" style={{ left: x, top: y }}>
+        <div>{`latitude: ${Number.isFinite(lat) ? lat.toFixed(6) : ""}`}</div>
+        <div>{`longitude: ${Number.isFinite(lng) ? lng.toFixed(6) : ""}`}</div>
+        <div>{`${count} SRs`}</div>
+      </div>
     );
-  }
+  };
   _renderLayers() {
     const { data } = this.props;
     return [
@@ -50,18 +77,21 @@ export default class Map extends Component {
         id: "heatmap",
         colorRange,
         coverage: 1,
-        extruded: false,
+        extruded: true,
         data,
-        opacity: 0.1,
-        radius: 350,
+        opacity: 1,
+        radius: 150,
         getPosition: d => d.geometry.coordinates,
-        upperPercentile: 100,
+        upperPercentile: 99,
         pickable: true,
+        elevationRange: [0, 10000],
+        lightSettings: LIGHT_SETTINGS,
+        elevationScale: 1,
         onHover: info =>
           this.setState({
             hoveredObject: info.object,
-            pointerX: info.x,
-            pointerY: info.y
+            x: info.x,
+            y: info.y
           })
       })
     ];
@@ -78,12 +108,30 @@ export default class Map extends Component {
         >
           <StaticMap
             reuseMaps
-            mapStyle="mapbox://styles/mapbox/light-v9"
+            mapStyle="mapbox://styles/mapbox/dark-v9"
             preventStyleDiffing={true}
             mapboxApiAccessToken={TOKEN}
           />
           {this._renderTooltip()}
         </DeckGL>
+        <div style={legendStyle}>
+          <div className="layout">
+            {colorRamp.map((c, i) => (
+              <div
+                key={i}
+                className="legend"
+                style={{
+                  background: c,
+                  width: `${100 / colorRange.length}%`
+                }}
+              />
+            ))}
+          </div>
+          <p class="layout">
+            <span>Fewer SRs</span>
+            <span style={{ textAlign: "right" }}>More Srs</span>
+          </p>
+        </div>
       </div>
     );
   }
