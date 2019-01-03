@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { StaticMap } from "react-map-gl";
 import DeckGL, { HexagonLayer } from "deck.gl";
 import "./Map.css";
@@ -47,13 +47,12 @@ const colorRange = [
 
 const colorRamp = colorRange.slice().map(color => `rgb(${color.join(",")})`);
 
-export default class Map extends Component {
-  state = {
-    hoveredObject: null
-  };
-  _renderTooltip = () => {
-    const { x, y, hoveredObject } = this.state;
+export default function Map({ data }) {
+  const [hoveredObject, setHoveredObject] = useState(null);
+  const [x, setx] = useState(null);
+  const [y, sety] = useState(null);
 
+  const _renderTooltip = () => {
     if (!hoveredObject) {
       return null;
     }
@@ -70,8 +69,7 @@ export default class Map extends Component {
       </div>
     );
   };
-  _renderLayers() {
-    const { data } = this.props;
+  const _renderLayers = () => {
     return [
       new HexagonLayer({
         id: "heatmap",
@@ -87,52 +85,49 @@ export default class Map extends Component {
         elevationRange: [0, 10000],
         lightSettings: LIGHT_SETTINGS,
         elevationScale: 1,
-        onHover: info =>
-          this.setState({
-            hoveredObject: info.object,
-            x: info.x,
-            y: info.y
-          })
+        onHover: info => {
+          setHoveredObject(info.object);
+          setx(info.x);
+          sety(info.y);
+        }
       })
     ];
-  }
-  render() {
-    return (
-      <div>
-        <DeckGL
-          layers={this._renderLayers()}
-          initialViewState={INITIAL_VIEW_STATE}
-          controller
-          width="100%"
-          height="500px"
-        >
-          <StaticMap
-            reuseMaps
-            mapStyle="mapbox://styles/mapbox/dark-v9"
-            preventStyleDiffing={true}
-            mapboxApiAccessToken={TOKEN}
-          />
-          {this._renderTooltip()}
-        </DeckGL>
-        <div style={legendStyle}>
-          <div className="layout">
-            {colorRamp.map((c, i) => (
-              <div
-                key={i}
-                className="legend"
-                style={{
-                  background: c,
-                  width: `${100 / colorRange.length}%`
-                }}
-              />
-            ))}
-          </div>
-          <p className="layout">
-            <span>Fewer SRs</span>
-            <span style={{ textAlign: "right" }}>More Srs</span>
-          </p>
+  };
+  return (
+    <div>
+      <DeckGL
+        layers={_renderLayers()}
+        initialViewState={INITIAL_VIEW_STATE}
+        controller
+        width="100%"
+        height="500px"
+      >
+        <StaticMap
+          reuseMaps
+          mapStyle="mapbox://styles/mapbox/dark-v9"
+          preventStyleDiffing={true}
+          mapboxApiAccessToken={TOKEN}
+        />
+        {_renderTooltip()}
+      </DeckGL>
+      <div style={legendStyle}>
+        <div className="layout">
+          {colorRamp.map((c, i) => (
+            <div
+              key={i}
+              className="legend"
+              style={{
+                background: c,
+                width: `${100 / colorRange.length}%`
+              }}
+            />
+          ))}
         </div>
+        <p className="layout">
+          <span>Fewer SRs</span>
+          <span style={{ textAlign: "right" }}>More Srs</span>
+        </p>
       </div>
-    );
-  }
+    </div>
+  );
 }

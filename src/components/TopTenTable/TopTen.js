@@ -1,10 +1,12 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { Table } from "semantic-ui-react";
 import { CSVLink } from "react-csv";
+import AppContext from "../../AppContext";
 import "./TopTen.css";
 import { reduceData } from "../../utils";
 
-export default function TopTen({ features }) {
+export default function TopTen() {
+  const features = useContext(AppContext);
   const data = reduceData(features);
 
   return (

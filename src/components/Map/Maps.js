@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Grid, Segment } from "semantic-ui-react";
+import AppContext from "../../AppContext";
 import Map from "./Map";
 import HexagonMap from "./HexagonMap";
 
-export default function Maps({ data }) {
+export default function Maps() {
+  const data = useContext(AppContext);
   return (
     <Grid columns={2} stackable>
       <Grid.Row>

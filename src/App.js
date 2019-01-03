@@ -3,6 +3,7 @@ import { Segment, Loader } from "semantic-ui-react";
 import { HashRouter as Router, Route } from "react-router-dom";
 import NProgress from "nprogress";
 import "./App.css";
+import AppContext from "./AppContext";
 const TopMenu = lazy(() => import("./components/TopMenu/TopMenu"));
 const LeftMenu = lazy(() => import("./components/LeftMenu/LeftMenu"));
 const Maps = lazy(() => import("./components/Map/Maps"));
@@ -49,25 +50,15 @@ function App() {
         <Suspense fallback={<Loader active />}>
           <LeftMenu days={days} handleItemClick={handleSelectChange} />
         </Suspense>
-        <div className="main-container">
-          <Suspense fallback={<Loader active />}>
-            <Route exact path="/" render={() => <Maps data={allRequests} />} />
-            <Route
-              exact
-              path="/table"
-              render={() => <TopTenTable features={allRequests} />}
-            />
-            <Route
-              exact
-              path="/chart"
-              render={() => (
-                <Segment style={{ marginBottom: "3em" }}>
-                  <Chart features={allRequests} />
-                </Segment>
-              )}
-            />
-          </Suspense>
-        </div>
+        <AppContext.Provider value={allRequests}>
+          <div className="main-container">
+            <Suspense fallback={<Loader active />}>
+              <Route exact path="/" component={Maps} />
+              <Route exact path="/table" component={TopTenTable} />
+              <Route exact path="/chart" component={Chart} />
+            </Suspense>
+          </div>
+        </AppContext.Provider>
       </div>
     </Router>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -9,9 +9,11 @@ import {
   Tooltip,
   Legend
 } from "recharts";
+import AppContext from "../AppContext";
 import { reduceData } from "../utils";
 
-export default function Chart({ features }) {
+export default function Chart() {
+  const features = useContext(AppContext);
   const data = reduceData(features);
   return (
     <ResponsiveContainer width="100%" height={500}>
