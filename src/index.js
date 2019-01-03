@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "semantic-ui-css/semantic.min.css";
+import "nprogress/nprogress.css";
+
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 

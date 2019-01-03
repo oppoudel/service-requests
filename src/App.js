@@ -1,6 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Segment, Loader } from "semantic-ui-react";
 import { HashRouter as Router, Route } from "react-router-dom";
+import NProgress from "nprogress";
 import "./App.css";
 const TopMenu = lazy(() => import("./components/TopMenu/TopMenu"));
 const LeftMenu = lazy(() => import("./components/LeftMenu/LeftMenu"));
@@ -26,11 +27,13 @@ function App() {
 
   useEffect(
     () => {
+      NProgress.start();
       fetch(callsUrl)
         .then(res => res.json())
-        .then(data =>
-          setAllRequests(data.features.filter(item => item.geometry))
-        );
+        .then(data => {
+          setAllRequests(data.features.filter(item => item.geometry));
+          NProgress.done();
+        });
     },
     [days]
   );

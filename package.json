@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "deck.gl": "^6.3.2",
+    "nprogress": "^0.2.0",
     "react": "^16.7.0-alpha.2",
     "react-csv": "^1.0.19",
     "react-dom": "^16.7.0-alpha.2",
