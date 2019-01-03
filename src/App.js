@@ -1,5 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
-import { Segment, Loader } from "semantic-ui-react";
+import { Loader } from "semantic-ui-react";
 import { HashRouter as Router, Route } from "react-router-dom";
 import NProgress from "nprogress";
 import "./App.css";

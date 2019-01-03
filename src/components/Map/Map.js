@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StaticMap } from "react-map-gl";
 import DeckGL, { ScatterplotLayer } from "deck.gl";
+import { format } from "date-fns";
 
 const legendStyle = {
   position: "absolute",
@@ -44,12 +45,13 @@ export default function Map({ data }) {
     if (!hoveredObject) {
       return null;
     }
-    const { address, srtype, agency } = hoveredObject.properties;
+    const { address, srtype, agency, createddate } = hoveredObject.properties;
     return (
       <div className="tooltip" style={{ left: x, top: y }}>
         <div>{`Address: ${address}`}</div>
         <div>{`Agency: ${agency}`}</div>
         <div>{`SR Type: ${srtype}`}</div>
+        <div>{`Created Date: ${format(createddate, "MM/DD/YYYY HH:MM")}`}</div>
       </div>
     );
   };
