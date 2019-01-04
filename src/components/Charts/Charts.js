@@ -1,19 +1,18 @@
 import React, { useContext, Fragment } from "react";
+
 import AppContext from "../../AppContext";
-import "./TopTen.css";
 import { reduceData, reduceDatabyNeighborhoods } from "../../utils";
-import Neighborhoods from "./Neighborhoods";
 import Departments from "./Departments";
+import Neighborhoods from "./Neighborhoods";
 
-export default function TopTen() {
+export default function Chart() {
   const features = useContext(AppContext);
-  const departments = reduceData(features);
-  const neighborhoods = reduceDatabyNeighborhoods(features);
-
+  const byAgency = reduceData(features);
+  const byNeighborhoods = reduceDatabyNeighborhoods(features);
   return (
     <Fragment>
-      <Departments data={departments} />
-      <Neighborhoods data={neighborhoods} />
+      <Departments data={byAgency} />
+      <Neighborhoods data={byNeighborhoods} />
     </Fragment>
   );
 }

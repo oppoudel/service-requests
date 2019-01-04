@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StaticMap } from "react-map-gl";
 import DeckGL, { ScatterplotLayer } from "deck.gl";
 import { format } from "date-fns";
+import { Segment, Header } from "semantic-ui-react";
 
 const legendStyle = {
   position: "absolute",
@@ -80,7 +81,7 @@ export default function Map({ data }) {
   };
 
   return (
-    <div>
+    <Segment style={{ height: "502px", marginTop: "1em" }}>
       <DeckGL
         layers={_renderLayers()}
         initialViewState={INITIAL_VIEW_STATE}
@@ -105,6 +106,6 @@ export default function Map({ data }) {
           <span style={{ ...legendDotStyle, background: "rgb(255, 0, 128)" }} />
         </p>
       </div>
-    </div>
+    </Segment>
   );
 }

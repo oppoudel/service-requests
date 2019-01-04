@@ -22,3 +22,28 @@ export const reduceData = features => {
   }, []);
   return data;
 };
+export const reduceDatabyNeighborhoods = features => {
+  const byNeighborhood = groupBy(
+    features,
+    item => item.properties.neighborhood
+  );
+  const Neighborhoods = Object.keys(byNeighborhood)
+    .sort((a, b) => byNeighborhood[b].length - byNeighborhood[a].length)
+    .slice(0, 10);
+  const isOpen = f => f.properties.srstatus === "Open";
+  const isNew = f => f.properties.srstatus === "New";
+  const isClosed = f => f.properties.srstatus === "Closed";
+  const notClosed = f => f.properties.srstatus !== "Closed";
+  const data = Neighborhoods.reduce((arr, item) => {
+    arr.push({
+      Neighborhoods: item,
+      TotalSr: byNeighborhood[item].length,
+      Open: byNeighborhood[item].filter(isOpen).length,
+      New: byNeighborhood[item].filter(isNew).length,
+      Closed: byNeighborhood[item].filter(isClosed).length,
+      NotClosed: byNeighborhood[item].filter(notClosed).length
+    });
+    return arr;
+  }, []);
+  return data;
+};

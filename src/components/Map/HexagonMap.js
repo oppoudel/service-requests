@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StaticMap } from "react-map-gl";
 import DeckGL, { HexagonLayer } from "deck.gl";
 import "./Map.css";
+import { Segment } from "semantic-ui-react";
 
 const TOKEN =
   "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA";
@@ -94,7 +95,7 @@ export default function Map({ data }) {
     ];
   };
   return (
-    <div>
+    <Segment style={{ height: "502px", marginTop: "1em" }}>
       <DeckGL
         layers={_renderLayers()}
         initialViewState={INITIAL_VIEW_STATE}
@@ -128,6 +129,6 @@ export default function Map({ data }) {
           <span style={{ textAlign: "right" }}>More Srs</span>
         </p>
       </div>
-    </div>
+    </Segment>
   );
 }

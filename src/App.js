@@ -8,7 +8,7 @@ const TopMenu = lazy(() => import("./components/TopMenu/TopMenu"));
 const LeftMenu = lazy(() => import("./components/LeftMenu/LeftMenu"));
 const Maps = lazy(() => import("./components/Map/Maps"));
 const TopTenTable = lazy(() => import("./components/TopTenTable/TopTen"));
-const Chart = lazy(() => import("./components/Chart"));
+const Charts = lazy(() => import("./components/Charts/Charts"));
 
 function App() {
   const [days, setDays] = useState(3);
@@ -55,7 +55,7 @@ function App() {
             <Suspense fallback={<Loader active />}>
               <Route exact path="/" component={Maps} />
               <Route exact path="/table" component={TopTenTable} />
-              <Route exact path="/chart" component={Chart} />
+              <Route exact path="/chart" component={Charts} />
             </Suspense>
           </div>
         </AppContext.Provider>

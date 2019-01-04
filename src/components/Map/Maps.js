@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Grid, Segment } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import AppContext from "../../AppContext";
 import Map from "./Map";
 import HexagonMap from "./HexagonMap";
@@ -18,14 +18,10 @@ export default function Maps() {
       <Grid stackable>
         <Grid.Row columns={2}>
           <Grid.Column>
-            <Segment style={{ height: "502px" }}>
-              <Map data={data} />
-            </Segment>
+            <Map data={data} />
           </Grid.Column>
           <Grid.Column>
-            <Segment style={{ height: "502px" }}>
-              <HexagonMap data={data} />
-            </Segment>
+            <HexagonMap data={data} />
           </Grid.Column>
         </Grid.Row>
       </Grid>
