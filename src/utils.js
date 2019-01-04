@@ -47,3 +47,25 @@ export const reduceDatabyNeighborhoods = features => {
   }, []);
   return data;
 };
+export const reducebySRType = features => {
+  const byType = groupBy(features, item => item.properties.srtype);
+  const srType = Object.keys(byType)
+    .sort((a, b) => byType[b].length - byType[a].length)
+    .slice(0, 10);
+  const isOpen = f => f.properties.srstatus === "Open";
+  const isNew = f => f.properties.srstatus === "New";
+  const isClosed = f => f.properties.srstatus === "Closed";
+  const notClosed = f => f.properties.srstatus !== "Closed";
+  const data = srType.reduce((arr, item) => {
+    arr.push({
+      SRType: item,
+      TotalSr: byType[item].length,
+      Open: byType[item].filter(isOpen).length,
+      New: byType[item].filter(isNew).length,
+      Closed: byType[item].filter(isClosed).length,
+      NotClosed: byType[item].filter(notClosed).length
+    });
+    return arr;
+  }, []);
+  return data;
+};
