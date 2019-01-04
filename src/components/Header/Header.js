@@ -9,7 +9,8 @@ function Head({ menu, days }) {
         <Header
           as="h3"
           style={{
-            textTransform: "capitalize"
+            textTransform: "capitalize",
+            textAlign: "center"
           }}
         >
           Service requests in Last {days} days

@@ -30,7 +30,7 @@ const TopMenu = ({ days, location }) => {
   };
   return (
     <div>
-      <Header menu={activeMenu} days={days} />
+      <Header days={days} />
       <Menu pointing secondary className="top-menu">
         <Menu.Menu position="left" className="menu-logo">
           <Menu.Item className="menu-logo" header>
