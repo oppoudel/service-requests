@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import { StaticMap } from "react-map-gl";
-import DeckGL, { HexagonLayer } from "deck.gl";
-import "./Map.css";
-import { Segment } from "semantic-ui-react";
+import React, { useState } from 'react';
+import { StaticMap } from 'react-map-gl';
+import DeckGL, { HexagonLayer } from 'deck.gl';
+import './Map.css';
+import { Segment } from 'semantic-ui-react';
 
 const TOKEN =
-  "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA";
+  'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
 const legendStyle = {
-  position: "absolute",
+  position: 'absolute',
   zIndex: 500,
   top: 0,
   right: 0,
-  background: "white",
-  margin: "1em",
-  padding: "1em",
-  width: "200px"
+  background: 'white',
+  margin: '1em',
+  padding: '1em',
+  width: '200px'
 };
 
 const INITIAL_VIEW_STATE = {
@@ -46,7 +46,7 @@ const colorRange = [
   [209, 55, 78]
 ];
 
-const colorRamp = colorRange.slice().map(color => `rgb(${color.join(",")})`);
+const colorRamp = colorRange.slice().map(color => `rgb(${color.join(',')})`);
 
 export default function Map({ data }) {
   const [hoveredObject, setHoveredObject] = useState(null);
@@ -64,8 +64,8 @@ export default function Map({ data }) {
 
     return (
       <div className="tooltip" style={{ left: x, top: y }}>
-        <div>{`latitude: ${Number.isFinite(lat) ? lat.toFixed(6) : ""}`}</div>
-        <div>{`longitude: ${Number.isFinite(lng) ? lng.toFixed(6) : ""}`}</div>
+        <div>{`latitude: ${Number.isFinite(lat) ? lat.toFixed(6) : ''}`}</div>
+        <div>{`longitude: ${Number.isFinite(lng) ? lng.toFixed(6) : ''}`}</div>
         <div>{`${count} SRs`}</div>
       </div>
     );
@@ -73,7 +73,7 @@ export default function Map({ data }) {
   const _renderLayers = () => {
     return [
       new HexagonLayer({
-        id: "heatmap",
+        id: 'heatmap',
         colorRange,
         coverage: 0.8,
         extruded: true,
@@ -95,7 +95,7 @@ export default function Map({ data }) {
     ];
   };
   return (
-    <Segment style={{ height: "502px", marginTop: "1em" }}>
+    <Segment style={{ height: '502px', marginTop: '1em' }}>
       <DeckGL
         layers={_renderLayers()}
         initialViewState={INITIAL_VIEW_STATE}
@@ -109,8 +109,8 @@ export default function Map({ data }) {
           preventStyleDiffing={true}
           mapboxApiAccessToken={TOKEN}
         />
-        {_renderTooltip()}
       </DeckGL>
+      {_renderTooltip()}
       <div style={legendStyle}>
         <div className="layout">
           {colorRamp.map((c, i) => (
@@ -126,7 +126,7 @@ export default function Map({ data }) {
         </div>
         <p className="layout">
           <span>Fewer SRs</span>
-          <span style={{ textAlign: "right" }}>More Srs</span>
+          <span style={{ textAlign: 'right' }}>More Srs</span>
         </p>
       </div>
     </Segment>

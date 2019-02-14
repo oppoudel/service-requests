@@ -1,30 +1,30 @@
-import { format } from "date-fns";
-import DeckGL, { ScatterplotLayer } from "deck.gl";
-import React, { useState } from "react";
-import { StaticMap } from "react-map-gl";
-import { Segment } from "semantic-ui-react";
+import { format } from 'date-fns';
+import DeckGL, { ScatterplotLayer } from 'deck.gl';
+import React, { useState } from 'react';
+import { StaticMap } from 'react-map-gl';
+import { Segment } from 'semantic-ui-react';
 
 const legendStyle = {
-  position: "absolute",
+  position: 'absolute',
   zIndex: 500,
   top: 0,
   right: 0,
-  background: "white",
-  margin: "1em",
-  padding: "1em"
+  background: 'white',
+  margin: '1em',
+  padding: '1em'
 };
 
 const legendDotStyle = {
-  width: "12px",
-  height: "12px",
-  background: "rgb(0, 128, 255)",
-  display: "inline-block",
-  marginLeft: "5px",
-  borderRadius: "50%"
+  width: '12px',
+  height: '12px',
+  background: 'rgb(0, 128, 255)',
+  display: 'inline-block',
+  marginLeft: '5px',
+  borderRadius: '50%'
 };
 
 const TOKEN =
-  "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA";
+  'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
 const OPEN_COLOR = [0, 128, 255];
 const CLOSED_COLOR = [255, 0, 128];
@@ -52,7 +52,7 @@ export default function Map({ data }) {
         <div>{`Address: ${address}`}</div>
         <div>{`Agency: ${agency}`}</div>
         <div>{`SR Type: ${srtype}`}</div>
-        <div>{`Created Date: ${format(createddate, "MM/DD/YYYY HH:MM")}`}</div>
+        <div>{`Created Date: ${format(createddate, 'MM/DD/YYYY HH:MM')}`}</div>
       </div>
     );
   };
@@ -60,7 +60,7 @@ export default function Map({ data }) {
   const _renderLayers = () => {
     return [
       new ScatterplotLayer({
-        id: "geojson",
+        id: 'geojson',
         data,
         opacity: 0.8,
         radiusScale: 6,
@@ -70,7 +70,7 @@ export default function Map({ data }) {
         pickable: true,
         getRadius: 1,
         getColor: d =>
-          d.properties.srstatus === "Closed" ? CLOSED_COLOR : OPEN_COLOR,
+          d.properties.srstatus === 'Closed' ? CLOSED_COLOR : OPEN_COLOR,
         onHover: info => {
           setHoveredObject(info.object);
           setx(info.x);
@@ -81,7 +81,7 @@ export default function Map({ data }) {
   };
 
   return (
-    <Segment style={{ height: "502px", marginTop: "1em" }}>
+    <Segment style={{ height: '502px', marginTop: '1em' }}>
       <DeckGL
         layers={_renderLayers()}
         initialViewState={INITIAL_VIEW_STATE}
@@ -95,15 +95,15 @@ export default function Map({ data }) {
           reuseMaps
           preventStyleDiffing={true}
         />
-        {_renderTooltip()}
       </DeckGL>
+      {_renderTooltip()}
       <div style={legendStyle}>
         <p>
           Not Closed: <span style={legendDotStyle} />
         </p>
         <p>
-          Closed Srs:{" "}
-          <span style={{ ...legendDotStyle, background: "rgb(255, 0, 128)" }} />
+          Closed Srs:{' '}
+          <span style={{ ...legendDotStyle, background: 'rgb(255, 0, 128)' }} />
         </p>
       </div>
     </Segment>

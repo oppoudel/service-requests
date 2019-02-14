@@ -1,10 +1,10 @@
-import React from "react";
-import { Menu } from "semantic-ui-react";
-import VRISelection from "../Selections/VRISelection";
-import "./LeftMenu.css";
+import React from 'react';
+import { Menu } from 'semantic-ui-react';
+import VRISelection from '../Selections/VRISelection';
+import './LeftMenu.css';
 
 function LeftMenu(props) {
-  const { days, handleItemClick } = props;
+  const { days, handleItemClick, selected, setVRISelection } = props;
   return (
     <div>
       <div className="left-menus">
@@ -23,7 +23,7 @@ function LeftMenu(props) {
             Last 30 Days
           </Menu.Item>
         </Menu>
-        <VRISelection />
+        <VRISelection selected={selected} setVRISelection={setVRISelection} />
       </div>
     </div>
   );
