@@ -1,9 +1,11 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
-import { Loader } from "semantic-ui-react";
-import { HashRouter as Router, Route } from "react-router-dom";
+import tag from "@turf/tag";
 import NProgress from "nprogress";
+import React, { lazy, Suspense, useEffect, useState } from "react";
+import { HashRouter as Router, Route } from "react-router-dom";
+import { Loader } from "semantic-ui-react";
 import "./App.css";
 import AppContext from "./AppContext";
+import { VRI } from "./data/VRI_Zones";
 const TopMenu = lazy(() => import("./components/TopMenu/TopMenu"));
 const LeftMenu = lazy(() => import("./components/LeftMenu/LeftMenu"));
 const Maps = lazy(() => import("./components/Map/Maps"));
@@ -26,18 +28,22 @@ function App() {
 
   const [allRequests, setAllRequests] = useState([]);
 
-  useEffect(
-    () => {
-      NProgress.start();
-      fetch(callsUrl)
-        .then(res => res.json())
-        .then(data => {
-          setAllRequests(data.features.filter(item => item.geometry));
-          NProgress.done();
-        });
-    },
-    [days]
-  );
+  useEffect(() => {
+    NProgress.start();
+    fetch(callsUrl)
+      .then(res => res.json())
+      .then(data => {
+        const points = {
+          ...data,
+          features: data.features.filter(item => item.geometry)
+        };
+        const polygons = VRI;
+        const updatedData = tag(points, polygons, "Name", "VRI");
+        setAllRequests(updatedData.features);
+        NProgress.done();
+      });
+  }, [days]);
+  console.log(allRequests);
   const handleSelectChange = value => {
     setDays(value);
   };

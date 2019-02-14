@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { Grid } from "semantic-ui-react";
 import AppContext from "../../AppContext";
-import Map from "./Map";
-import HexagonMap from "./HexagonMap";
 import Details from "../Details/Details";
+import HexagonMap from "./HexagonMap";
+import Map from "./Map";
 
 export default function Maps() {
   const data = useContext(AppContext);

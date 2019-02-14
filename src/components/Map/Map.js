@@ -1,8 +1,8 @@
+import { format } from "date-fns";
+import DeckGL, { ScatterplotLayer } from "deck.gl";
 import React, { useState } from "react";
 import { StaticMap } from "react-map-gl";
-import DeckGL, { ScatterplotLayer } from "deck.gl";
-import { format } from "date-fns";
-import { Segment, Header } from "semantic-ui-react";
+import { Segment } from "semantic-ui-react";
 
 const legendStyle = {
   position: "absolute",
